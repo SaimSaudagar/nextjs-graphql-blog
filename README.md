@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 Next.js GraphQL Blog
 
-## Getting Started
+A simple blog application built using Next.js and GraphQL. Users can:
 
-First, run the development server:
+View a list of blog posts ✅
 
-```bash
+Read individual blog posts ✅
+
+Create new blog posts ✅
+
+Paginate through posts ✅
+
+
+📌 Tech Stack
+
+Frontend: Next.js, React, Apollo Client
+
+Backend: Apollo Server, GraphQL
+
+State Management: Apollo Client Cache
+
+Styling: Tailwind CSS
+
+🛠️ Setup & Installation
+
+1️⃣ Clone the Repository
+
+git clone https://github.com/SaimSaudagar/nextjs-graphql-blog.git
+cd nextjs-graphql-blog
+
+2️⃣ Install Dependencies
+
+npm install
+
+🎯 Running the Application
+
+🔹 Start the GraphQL Server
+
+npm run server
+
+The GraphQL server will run at: http://localhost:4000
+
+All posts will be reset on every restart
+
+🔹 Start the Next.js Frontend
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or %
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Next.js app will run at: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔥 GraphQL Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+📌 Queries & Mutations
 
-## Learn More
+🔍 Fetch All Posts
 
-To learn more about Next.js, take a look at the following resources:
+query GetPosts($limit: Int!, $offset: Int!) {
+  posts(limit: $limit, offset: $offset) {
+    id
+    title
+    description
+    author
+    publishedAt
+  }
+  postCount
+}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+📌 Fetch a Single Post
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+query GetPost($id: ID!) {
+  post(id: $id) {
+    id
+    title
+    description
+    author
+    publishedAt
+  }
+}
 
-## Deploy on Vercel
+✍️ Create a New Post
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+mutation CreatePost($title: String!, $description: String!, $author: String!) {
+  createPost(title: $title, description: $description, author: $author) {
+    id
+    title
+    description
+    author
+    publishedAt
+  }
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+📌 Architecture Decisions
+
+Next.js Pages & API Routes
+
+Uses app/page.tsx for listing posts.
+
+Uses app/post/[id]/page.tsx for viewing single posts.
+
+app/create/page.tsx handles post creation.
+
+Apollo Client for GraphQL
+
+Uses useQuery for fetching posts.
+
+Uses useMutation for creating posts.
+
+Implements cache updates to ensure new posts appear without refreshing.
+
+GraphQL Server with Apollo Server
+
+Runs on http://localhost:4000
+
+Stores posts in-memory, so they reset on restart.
