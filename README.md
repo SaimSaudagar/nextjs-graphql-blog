@@ -36,7 +36,7 @@ npm install
 
 🔹 Start the GraphQL Server
 
-npm run server
+node server.js
 
 The GraphQL server will run at: http://localhost:4000
 
