@@ -13,7 +13,7 @@ const typeDefs = gql`
 
   type Query {
     posts(limit: Int, offset: Int): [Post]
-    post(id: ID!): Post  # ✅ Added single post query
+    post(id: ID!): Post
     postCount: Int!
   }
 
@@ -49,7 +49,7 @@ const server = new ApolloServer({ typeDefs, resolvers });
 const PORT = process.env.PORT || 4000;
 
 const { url } = await startStandaloneServer(server, {
-  listen: { PORT },
+  listen: { port: Number(PORT) },
 });
 
 console.log(`🚀 GraphQL server running at ${url}`);
