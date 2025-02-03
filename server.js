@@ -25,30 +25,31 @@ const typeDefs = gql`
 let posts = [];
 
 const resolvers = {
-    Query: {
-        posts: (_, { limit = 5, offset = 0 }) => posts.slice(offset, offset + limit),
-        post: (_, { id }) => posts.find((post) => post.id === id) || null,
-        postCount: () => posts.length,
+  Query: {
+    posts: (_, { limit = 5, offset = 0 }) => posts.slice(offset, offset + limit),
+    post: (_, { id }) => posts.find((post) => post.id === id) || null,
+    postCount: () => posts.length,
+  },
+  Mutation: {
+    createPost: (_, { title, description, author }) => {
+      const newPost = {
+        id: String(posts.length + 1),
+        title,
+        description,
+        author,
+        publishedAt: new Date().toISOString(),
+      };
+      posts.unshift(newPost);
+      return newPost;
     },
-    Mutation: {
-        createPost: (_, { title, description, author }) => {
-            const newPost = {
-                id: String(posts.length + 1),
-                title,
-                description,
-                author,
-                publishedAt: new Date().toISOString(),
-            };
-            posts.unshift(newPost);
-            return newPost;
-        },
-    },
+  },
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
+const PORT = process.env.PORT || 4000;
 
 const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+  listen: { PORT },
 });
 
 console.log(`🚀 GraphQL server running at ${url}`);
